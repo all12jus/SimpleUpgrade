@@ -30,9 +30,29 @@ if "%VERSION%"=="" (
 rem Create the name_version string
 set "PACKAGE_NAME=%NAME%_%VERSION%"
 
+rem Create a temporary directory to hold the mod contents
+set "TEMP_DIR=%TEMP%\%PACKAGE_NAME%"
+mkdir "%TEMP_DIR%"
+if errorlevel 1 (
+    echo Error: Failed to create temporary directory %TEMP_DIR%
+    exit /b 1
+)
+
+rem Create a directory for the package inside the temporary directory
+mkdir "%TEMP_DIR%\%PACKAGE_NAME%"
+if errorlevel 1 (
+    echo Error: Failed to create package directory %TEMP_DIR%\%PACKAGE_NAME%
+    exit /b 1
+)
+
+rem Copy the files into the package directory
+copy "%INFO_JSON%" "%TEMP_DIR%\%PACKAGE_NAME%\"
+copy "%DATA_LUA%" "%TEMP_DIR%\%PACKAGE_NAME%\"
+xcopy "%LOCALE_DIR%\*" "%TEMP_DIR%\%PACKAGE_NAME%\%LOCALE_DIR%\" /E /I /Y
+
 rem Create the zip file
 set "ZIP_FILE=%PACKAGE_NAME%.zip"
-powershell -command "Compress-Archive -Path '%INFO_JSON%', '%DATA_LUA%', '%LOCALE_DIR%' -DestinationPath '%ZIP_FILE%'"
+powershell -command "Compress-Archive -Path '%TEMP_DIR%\*' -DestinationPath '%ZIP_FILE%'"
 
 rem Check if the zip file was created successfully
 if not exist "%ZIP_FILE%" (
@@ -43,8 +63,6 @@ if not exist "%ZIP_FILE%" (
 rem Copy the zip file to the Factorio mods directory
 copy "%ZIP_FILE%" "%FACTORIO_MODS_DIR%"
 
-del "%ZIP_FILE%"
-
 rem Check if the copy was successful
 if errorlevel 1 (
     echo Error: Failed to copy %ZIP_FILE% to %FACTORIO_MODS_DIR%
@@ -53,6 +71,19 @@ if errorlevel 1 (
     echo Successfully created and copied %ZIP_FILE% to %FACTORIO_MODS_DIR%
 )
 
+rem Remove the temporary zip file and directory
+del "%ZIP_FILE%"
+if errorlevel 1 (
+    echo Error: Failed to delete temporary zip file %ZIP_FILE%
+) else (
+    echo Successfully deleted temporary zip file %ZIP_FILE%
+)
 
+rmdir /S /Q "%TEMP_DIR%"
+if errorlevel 1 (
+    echo Error: Failed to delete temporary directory %TEMP_DIR%
+) else (
+    echo Successfully deleted temporary directory %TEMP_DIR%
+)
 
 endlocal
