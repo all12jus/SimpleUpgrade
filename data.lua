@@ -32,6 +32,12 @@ local recipes_to_modify = {
   {"boiler", "boiler"},
   {"storage-tank", "storage-tank"},
   {"lab", "lab"},
+  {"generator", "steam-engine"},
+  {"assembling-machine", "chemical-plant"},
+  {"assembling-machine", "oil-refinery"},
+  {"assembling-machine", "assembling-machine-1"},
+  {"assembling-machine", "assembling-machine-2"},
+  {"assembling-machine", "assembling-machine-3"},
 } -- Add your desired recipes as {base_type, recipe_name}
 
 
@@ -70,7 +76,8 @@ for _, recipe_info in ipairs(recipes_to_modify) do
   -- Define the recipe for the reversed furnace
   local recipe = {
     type = "recipe",
-    name = "upgrade-" .. recipe_name,
+    name =  -- "upgrade-" .. 
+    recipe_name, -- will this override the other thing
     localised_name = {"", localized_name  .. " Upgrade Attempt"},
     category = "advanced-crafting",
     enabled = true,
@@ -78,7 +85,15 @@ for _, recipe_info in ipairs(recipes_to_modify) do
     ingredients = {
       {type = "item", name = recipe_name, amount = 1}
     },
-    results = {{type = "item", name = recipe_name, amount = 1}},
+    results = {
+      { 
+        type = "item", 
+        name = existing_recipe.name, 
+        amount = 1,
+        localised_name = existing_recipe.localised_name
+      }
+      -- {type = "item", name = recipe_name, amount = 1}
+    },
     hide_from_player_crafting = true,
     order = (existing_recipe.order or "z") .. "-upgraded",
     icons = source.icons
@@ -86,6 +101,10 @@ for _, recipe_info in ipairs(recipes_to_modify) do
 
   -- Extend the data with the new source and recipe
   data:extend{source, recipe}
+  
+  -- if data.raw["recipe"][recipe.name] then
+  --   data:extend{source, recipe}
+  -- end
 end
 
 
