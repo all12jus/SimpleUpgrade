@@ -27,8 +27,11 @@ end
 
 local recipes_to_modify = {
   {"furnace", "stone-furnace"},
-  {"furnace", "electric-furnace"},
+  {"furnace", "electric-furnace"}, -- not enabled?, not end of consumption tree.
   {"furnace", "steel-furnace"},
+  {"boiler", "boiler"},
+  {"storage-tank", "storage-tank"},
+  {"lab", "lab"},
 } -- Add your desired recipes as {base_type, recipe_name}
 
 
