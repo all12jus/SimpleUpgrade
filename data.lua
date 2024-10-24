@@ -68,7 +68,8 @@ for _, recipe_info in ipairs(recipes_to_modify) do
     localised_name = {"", localized_name  .. " Upgrade Attempt"},
     category = "advanced-crafting",
     enabled = true,
-    energy_required = (existing_recipe.energy_required or 0.5) * 3.0, -- Time to craft in seconds (at crafting speed 1)
+    energy_required = (existing_recipe.energy_required or 0.5) * 1.0, -- Time to craft in seconds (at crafting speed 1)
+    -- this could be changed to be based on a research eventually!
     ingredients = {
       {type = "item", name = recipe_name, amount = 1}
     },
@@ -90,7 +91,8 @@ for _, recipe_info in ipairs(recipes_to_modify) do
         icon = overlayPath,
         icon_size = source.icon_size
       },
-    }
+    },
+    -- enabled = true -- this is going to be used when we do the science. 
   }
 
   -- log(table_to_string(recipe))
