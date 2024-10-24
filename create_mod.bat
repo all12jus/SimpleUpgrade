@@ -32,7 +32,7 @@ set "PACKAGE_NAME=%NAME%_%VERSION%"
 
 rem Create the zip file
 set "ZIP_FILE=%PACKAGE_NAME%.zip"
-powershell -command "Compress-Archive -Path '%INFO_JSON%', '%DATA_LUA%', '%LOCALE_DIR%\*' -DestinationPath '%ZIP_FILE%'"
+powershell -command "Compress-Archive -Path '%INFO_JSON%', '%DATA_LUA%', '%LOCALE_DIR%' -DestinationPath '%ZIP_FILE%'"
 
 rem Check if the zip file was created successfully
 if not exist "%ZIP_FILE%" (
