@@ -55,20 +55,20 @@ for _, recipe_info in ipairs(recipes_to_modify) do
   local existing_recipe = data.raw.item[recipe_name] -- data.raw.recipe
 
   log(table_to_string(existing_recipe))
-  log(table_to_string(source))
+  -- log(table_to_string(source))
 
   -- Modify the furnace properties
-  source.name = "upgrade-" .. recipe_name
-  source.icons = {
-    {
-      icon = source.icon,
-      icon_size = source.icon_size
-    },
-    {
-      icon = overlayPath,
-      icon_size = source.icon_size
-    },
-  }
+  -- source.name = "upgrade-" .. recipe_name
+  -- source.icons = {
+  --   {
+  --     icon = source.icon,
+  --     icon_size = source.icon_size
+  --   },
+  --   {
+  --     icon = overlayPath,
+  --     icon_size = source.icon_size
+  --   },
+  -- }
 
   local localized_name = recipe_name:gsub("-(%w)", function(c) return " " .. c:upper() end):gsub("^%l", string.upper)
 
@@ -76,8 +76,7 @@ for _, recipe_info in ipairs(recipes_to_modify) do
   -- Define the recipe for the reversed furnace
   local recipe = {
     type = "recipe",
-    name =  -- "upgrade-" .. 
-    recipe_name, -- will this override the other thing
+    name =  "upgrade-" ..  recipe_name, -- will this override the other thing if they match
     localised_name = {"", localized_name  .. " Upgrade Attempt"},
     category = "advanced-crafting",
     enabled = true,
@@ -90,17 +89,28 @@ for _, recipe_info in ipairs(recipes_to_modify) do
         type = "item", 
         name = existing_recipe.name, 
         amount = 1,
-        localised_name = existing_recipe.localised_name
+        -- localised_name = {"", existing_recipe.localised_name}
       }
       -- {type = "item", name = recipe_name, amount = 1}
     },
     hide_from_player_crafting = true,
     order = (existing_recipe.order or "z") .. "-upgraded",
-    icons = source.icons
+    icons = {
+      {
+        icon = source.icon,
+        icon_size = source.icon_size
+      },
+      {
+        icon = overlayPath,
+        icon_size = source.icon_size
+      },
+    }
   }
 
+  log(table_to_string(recipe))
+
   -- Extend the data with the new source and recipe
-  data:extend{source, recipe}
+  data:extend{recipe} -- source, 
   
   -- if data.raw["recipe"][recipe.name] then
   --   data:extend{source, recipe}
