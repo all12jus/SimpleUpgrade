@@ -39,6 +39,8 @@
 
 local recipes_to_modify = {
   {"furnace", "stone-furnace"},
+  {"furnace", "electric-furnace"},
+  {"furnace", "steel-furnace"},
   -- 
   -- {"furnace", "steel-furnace"}
 } -- Add your desired recipes as {base_type, recipe_name}
