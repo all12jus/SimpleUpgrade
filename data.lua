@@ -35,12 +35,26 @@
 -- Upgrade items: stone-furnace, electric-furnace, boiler, steam-turbine
 -- if do it from a list, will it actually do the locale config correctly.
 
+-- debug
 
+local function table_to_string(tbl)
+  local result = {}
+  for k, v in pairs(tbl) do
+    if type(v) == "table" then
+      table.insert(result, k .. " = {" .. table_to_string(v) .. "}")
+    else
+      table.insert(result, k .. " = " .. tostring(v))
+    end
+  end
+  return table.concat(result, ", ")
+end
+
+-- end debug
 
 local recipes_to_modify = {
   {"furnace", "stone-furnace"},
-  {"furnace", "electric-furnace"}, -- these aren't being ordered correctly
-  {"furnace", "steel-furnace"}, -- these aren't being ordered correctly
+--  {"furnace", "electric-furnace"}, -- these aren't being ordered correctly
+--  {"furnace", "steel-furnace"}, -- these aren't being ordered correctly
   -- 
   -- {"furnace", "steel-furnace"}
 } -- Add your desired recipes as {base_type, recipe_name}
@@ -51,6 +65,12 @@ for _, recipe_info in ipairs(recipes_to_modify) do
 
   local source = table.deepcopy(data.raw[base_type][recipe_name]) -- Copy the furnace definition
 
+
+  local existing_recipe = data.raw.item[recipe_name] -- data.raw.recipe
+
+  log(table_to_string(existing_recipe))
+  log(table_to_string(source))
+
   -- Modify the furnace properties
   source.name = "upgrade-" .. recipe_name
   source.icons = {
@@ -60,6 +80,10 @@ for _, recipe_info in ipairs(recipes_to_modify) do
       tint = {r=1, g=0, b=0, a=0.3}
     },
   }
+
+  -- print(source)
+  -- game.print("Modifying recipe: " .. recipe_name)
+
 
   local localized_name = recipe_name:gsub("-(%w)", function(c) return " " .. c:upper() end):gsub("^%l", string.upper)
 
@@ -77,7 +101,8 @@ for _, recipe_info in ipairs(recipes_to_modify) do
     },
     results = {{type = "item", name = recipe_name, amount = 1}},
     hide_from_player_crafting = true,
-    order = "a[" .. recipe_name .. "]-b[upgrade-" .. recipe_name .. "]"  -- Sort order
+    order = (source.order or "z") .. "upgraded"
+    --order = "a[" .. recipe_name .. "]-b[upgrade-" .. recipe_name .. "]"  -- Sort order
   }
 
   -- Extend the data with the new source and recipe
