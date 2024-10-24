@@ -54,22 +54,6 @@ for _, recipe_info in ipairs(recipes_to_modify) do
 
   local existing_recipe = data.raw.item[recipe_name] -- data.raw.recipe
 
-  log(table_to_string(existing_recipe))
-  -- log(table_to_string(source))
-
-  -- Modify the furnace properties
-  -- source.name = "upgrade-" .. recipe_name
-  -- source.icons = {
-  --   {
-  --     icon = source.icon,
-  --     icon_size = source.icon_size
-  --   },
-  --   {
-  --     icon = overlayPath,
-  --     icon_size = source.icon_size
-  --   },
-  -- }
-
   local localized_name = recipe_name:gsub("-(%w)", function(c) return " " .. c:upper() end):gsub("^%l", string.upper)
 
 
@@ -88,10 +72,8 @@ for _, recipe_info in ipairs(recipes_to_modify) do
       { 
         type = "item", 
         name = existing_recipe.name, 
-        amount = 1,
-        -- localised_name = {"", existing_recipe.localised_name}
+        amount = 1
       }
-      -- {type = "item", name = recipe_name, amount = 1}
     },
     hide_from_player_crafting = true,
     order = (existing_recipe.order or "z") .. "-upgraded",
@@ -109,28 +91,9 @@ for _, recipe_info in ipairs(recipes_to_modify) do
 
   log(table_to_string(recipe))
 
-  -- Extend the data with the new source and recipe
-  data:extend{recipe} -- source, 
-  
-  -- if data.raw["recipe"][recipe.name] then
-  --   data:extend{source, recipe}
-  -- end
+  -- Extend the data with the new recipe
+  data:extend{recipe}
 end
-
-
--- {
---   type = "item",
---   name = "boiler",
---   icon = "__base__/graphics/icons/boiler.png",
---   subgroup = "energy",
---   order = "b[steam-power]-a[boiler]",
---   inventory_move_sound = item_sounds.steam_inventory_move,
---   pick_sound = item_sounds.steam_inventory_pickup,
---   drop_sound = item_sounds.steam_inventory_move,
---   place_result = "boiler",
---   stack_size = 50,
---   random_tint_color = item_tints.iron_rust
--- },
 
 -- if I do the recycle     allowed_effects = {"consumption", "speed", "pollution", "quality"}, this needs to be modified, to not allow quality.
 -- for items that are smelted in the upgraded ones, it seems to not have the  item key in the locale
