@@ -52,7 +52,11 @@ for _, recipe_info in ipairs(recipes_to_modify) do
   local source = table.deepcopy(data.raw[base_type][recipe_name]) -- Copy the furnace definition
 
 
-  local existing_recipe = data.raw.item[recipe_name] -- data.raw.recipe
+  local existing_item = data.raw.item[recipe_name] -- data.raw.recipe
+  local existing_recipe = data.raw.recipe[recipe_name] -- data.raw.recipe
+
+  log(table_to_string(existing_item))
+  log(table_to_string(existing_recipe))
 
   local localized_name = recipe_name:gsub("-(%w)", function(c) return " " .. c:upper() end):gsub("^%l", string.upper)
 
@@ -64,19 +68,19 @@ for _, recipe_info in ipairs(recipes_to_modify) do
     localised_name = {"", localized_name  .. " Upgrade Attempt"},
     category = "advanced-crafting",
     enabled = true,
-    energy_required = 5, -- Time to craft in seconds (at crafting speed 1)
+    energy_required = (existing_recipe.energy_required or 0.5) * 3.0, -- Time to craft in seconds (at crafting speed 1)
     ingredients = {
       {type = "item", name = recipe_name, amount = 1}
     },
     results = {
       { 
         type = "item", 
-        name = existing_recipe.name, 
+        name = existing_item.name, 
         amount = 1
       }
     },
     hide_from_player_crafting = true,
-    order = (existing_recipe.order or "z") .. "-upgraded",
+    order = (existing_item.order or "z") .. "-upgraded",
     icons = {
       {
         icon = source.icon,
@@ -89,7 +93,7 @@ for _, recipe_info in ipairs(recipes_to_modify) do
     }
   }
 
-  log(table_to_string(recipe))
+  -- log(table_to_string(recipe))
 
   -- Extend the data with the new recipe
   data:extend{recipe}
