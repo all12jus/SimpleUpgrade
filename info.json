@@ -1,0 +1,9 @@
+{
+  "name": "starting-recycling",
+  "version": "0.0.1",
+  "title": "reverse-stone-furnace",
+  "description": "Allows you to recycle stone furnace into stone, useful when you have quality enabled.",
+  "author": "JJAllenTech",
+  "factorio_version": "2.0",
+  "dependencies": [ "base" ]
+}
