@@ -1,39 +1,13 @@
--- this is a simple recycling recipe for stone brick
-
-
--- local stoneFurnace = table.deepcopy(data.raw["furnace"]["stone-furnace"]) -- copy the table that defines the heavy armor item into the fireArmor variable
-
--- stoneFurnace.name = "reverse-stone-furnace"
--- stoneFurnace.icons = {
---   {
---     icon = stoneFurnace.icon,
---     icon_size = stoneFurnace.icon_size,
---     tint = {r=1,g=0,b=0,a=0.3}
---   },
--- }
-
--- local recipe = {
---   type = "recipe",
---   name = "reverse-stone-furnace",
---   localised_name = {"", "Stone Furnace Upgrade Attempt"},
---   category = "crafting",
---   enabled = true,
---   energy_required = 5, -- time to craft in seconds (at crafting speed 1)
---   ingredients = {
---     {type = "item", name = "stone-furnace", amount = 1}
---   },
---   results = {{type = "item", name = "stone-furnace", amount = 1}},
---   hide_from_player_crafting = true,
---   order = "a[stone-furnace]-b[reverse-stone-furnace]"  -- Sort order
--- }
-
--- data:extend{stoneFurnace, recipe}
 
 -- TODO: make it so the player cant craft this on their person.
 -- also make it so the name is actually showing in the game list, also maybe sort it to be after the stone furnace.
 
 -- Upgrade items: stone-furnace, electric-furnace, boiler, steam-turbine
 -- if do it from a list, will it actually do the locale config correctly.
+
+-- https://github.com/marketplace/actions/factorio-mod-portal-publish
+
+
 
 -- debug
 
@@ -53,12 +27,12 @@ end
 
 local recipes_to_modify = {
   {"furnace", "stone-furnace"},
- {"furnace", "electric-furnace"}, -- these aren't being ordered correctly
- {"furnace", "steel-furnace"}, -- these aren't being ordered correctly
-  -- 
-  -- {"furnace", "steel-furnace"}
+  {"furnace", "electric-furnace"},
+  {"furnace", "steel-furnace"},
 } -- Add your desired recipes as {base_type, recipe_name}
-local mod_name = "starting-recycling"
+
+
+local mod_name = "attempt-upgrade"
 local overlayPath = "__" .. mod_name .. "__/upgrade-overlay.png"
 -- local overlayPath = "__" .. script.mod_name .. "__/graphics/icons/" .. recipe_name .. ".png"
 
@@ -79,19 +53,13 @@ for _, recipe_info in ipairs(recipes_to_modify) do
   source.icons = {
     {
       icon = source.icon,
-      icon_size = source.icon_size,
-      -- tint = {r=1, g=0, b=0, a=0.3}
+      icon_size = source.icon_size
     },
     {
       icon = overlayPath,
-      icon_size = source.icon_size,
-      -- tint = {r=1, g=0, b=0, a=0.3}
+      icon_size = source.icon_size
     },
   }
-
-  -- print(source)
-  -- game.print("Modifying recipe: " .. recipe_name)
-
 
   local localized_name = recipe_name:gsub("-(%w)", function(c) return " " .. c:upper() end):gsub("^%l", string.upper)
 
@@ -111,7 +79,6 @@ for _, recipe_info in ipairs(recipes_to_modify) do
     hide_from_player_crafting = true,
     order = (existing_recipe.order or "z") .. "-upgraded",
     icons = source.icons
-    --order = "a[" .. recipe_name .. "]-b[upgrade-" .. recipe_name .. "]"  -- Sort order
   }
 
   -- Extend the data with the new source and recipe

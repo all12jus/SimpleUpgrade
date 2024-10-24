@@ -1,8 +1,8 @@
 {
-  "name": "starting-recycling",
+  "name": "attempt-upgrade",
   "version": "0.0.1",
-  "title": "reverse-stone-furnace",
-  "description": "Allows you to recycle stone furnace into stone, useful when you have quality enabled.",
+  "title": "attempt-upgrade",
+  "description": "Allows you to run items thru assemblers to retry upgrading them with the quality modules. ",
   "author": "JJAllenTech",
   "factorio_version": "2.0",
   "dependencies": [ "base", "space-age", "quality" ]
