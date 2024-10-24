@@ -53,11 +53,14 @@ end
 
 local recipes_to_modify = {
   {"furnace", "stone-furnace"},
---  {"furnace", "electric-furnace"}, -- these aren't being ordered correctly
---  {"furnace", "steel-furnace"}, -- these aren't being ordered correctly
+ {"furnace", "electric-furnace"}, -- these aren't being ordered correctly
+ {"furnace", "steel-furnace"}, -- these aren't being ordered correctly
   -- 
   -- {"furnace", "steel-furnace"}
 } -- Add your desired recipes as {base_type, recipe_name}
+local mod_name = "starting-recycling"
+local overlayPath = "__" .. mod_name .. "__/upgrade-overlay.png"
+-- local overlayPath = "__" .. script.mod_name .. "__/graphics/icons/" .. recipe_name .. ".png"
 
 for _, recipe_info in ipairs(recipes_to_modify) do
   local base_type = recipe_info[1]
@@ -77,7 +80,12 @@ for _, recipe_info in ipairs(recipes_to_modify) do
     {
       icon = source.icon,
       icon_size = source.icon_size,
-      tint = {r=1, g=0, b=0, a=0.3}
+      -- tint = {r=1, g=0, b=0, a=0.3}
+    },
+    {
+      icon = overlayPath,
+      icon_size = source.icon_size,
+      -- tint = {r=1, g=0, b=0, a=0.3}
     },
   }
 
@@ -101,7 +109,8 @@ for _, recipe_info in ipairs(recipes_to_modify) do
     },
     results = {{type = "item", name = recipe_name, amount = 1}},
     hide_from_player_crafting = true,
-    order = (source.order or "z") .. "upgraded"
+    order = (existing_recipe.order or "z") .. "-upgraded",
+    icons = source.icons
     --order = "a[" .. recipe_name .. "]-b[upgrade-" .. recipe_name .. "]"  -- Sort order
   }
 

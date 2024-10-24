@@ -48,6 +48,7 @@ if errorlevel 1 (
 rem Copy the files into the package directory
 copy "%INFO_JSON%" "%TEMP_DIR%\%PACKAGE_NAME%\"
 copy "%DATA_LUA%" "%TEMP_DIR%\%PACKAGE_NAME%\"
+copy "upgrade-overlay.png " "%TEMP_DIR%\%PACKAGE_NAME%\"
 xcopy "%LOCALE_DIR%\*" "%TEMP_DIR%\%PACKAGE_NAME%\%LOCALE_DIR%\" /E /I /Y
 
 rem Create the zip file
