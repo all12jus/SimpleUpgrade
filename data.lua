@@ -8,6 +8,8 @@
 -- https://github.com/marketplace/actions/factorio-mod-portal-publish
 
 
+-- could even make there be a specific machine and category that the machine is associated with so that you aren't using regular assembling machine, 
+-- but the machine would be a clone of the assembling-machine-1 and need a tint, and a research.
 
 -- debug
 
