@@ -42,6 +42,9 @@ local recipes_to_modify = {
   {"assembling-machine", "assembling-machine-3"},
   {"mining-drill", "electric-mining-drill"},
   {"mining-drill", "big-mining-drill"},
+  {"logistic-robot", "logistic-robot"},
+  {"construction-robot", "construction-robot"},
+  {"roboport", "roboport"},
 } -- Add your desired recipes as {base_type, recipe_name}
 
 
@@ -104,6 +107,39 @@ for _, recipe_info in ipairs(recipes_to_modify) do
   -- Extend the data with the new recipe
   data:extend{recipe}
 end
+
+  -- Define the recipe for the reversed furnace
+  local rocketFuel = data.raw.item["rocket-fuel"]
+  local frecipe = {
+    type = "recipe",
+    name =  "fuel_from_air", -- will this override the other thing if they match
+    localised_name = {"", "Fuel From Air"},
+    category = "advanced-crafting",
+    enabled = true,
+    ingredients = {
+
+    },
+    results = {
+      { 
+        type = "item", 
+        name = "rocket-fuel", 
+        amount = 1
+      }
+    },
+    hide_from_player_crafting = true,
+    icons = {
+      {
+        icon = rocketFuel.icon,
+        icon_size = rocketFuel.icon_size
+      },
+    }
+  }
+
+  -- log(table_to_string(recipe))
+
+  -- Extend the data with the new recipe
+  data:extend{frecipe}
+
 
 -- if I do the recycle     allowed_effects = {"consumption", "speed", "pollution", "quality"}, this needs to be modified, to not allow quality.
 -- for items that are smelted in the upgraded ones, it seems to not have the  item key in the locale
