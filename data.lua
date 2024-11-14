@@ -45,6 +45,8 @@ local recipes_to_modify = {
   {"logistic-robot", "logistic-robot"},
   {"construction-robot", "construction-robot"},
   {"roboport", "roboport"},
+  {"beacon", "beacon"},
+  {"mining-drill", "pumpjack"},
 } -- Add your desired recipes as {base_type, recipe_name}
 
 
